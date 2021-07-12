@@ -1,1 +1,1 @@
-CIV102 Bridge Construction Optimizer!
+This script was written to automate the process of performing repetitive bridge construction – beam bending, shear forces, etc – calculations at the occasion of the CIV102 Bridge Construction project in Fall 2020 at the University of Toronto. There are constant values for most measurements but two distances are input by the user. 
