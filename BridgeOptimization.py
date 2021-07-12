@@ -215,8 +215,6 @@ def FlexuralFailure(): #Navier's Equation for Flexural Stresses
 	print("Due to flexural stresses, the bridge will fail at:",P_fail_FF,"N.")
 	return P_fail_FF
 
-
-
 def ShearFailure(): #Jourawski’s Equation for shear stress			#instantiate b in the constants 
 	global P_fail
 	global shear_strength_matboard
@@ -248,29 +246,21 @@ def BucklingFailure(): #failure due to buckling
     Mmax = FindMmax()
 
     plate_compression = (Mmax*y_t)/I
-    print(plate_compression)
 
     comp_top_flange = ((4 * math.pi**2 * E) * ((h1/b)**2))/(12 * (1 - poissons_ratio**2)) #calculate this by hand
     P_fail_BC1 = comp_top_flange/plate_compression
-    print(comp_top_flange,P_fail_BC1)
 
     tips_flange = ((0.425 * math.pi**2 * E)*((h1/20)**2))/(12 * (1 - poissons_ratio**2)) #calculate this by hand
     P_fail_BC2 = tips_flange/plate_compression
-    print(tips_flange,P_fail_BC2)
 
     webs_flexural = ((6 * math.pi**2 * E) * ((t/y_c)**2))/(12 * (1 - poissons_ratio**2)) #calculate this by hand
     P_fail_webs_flex = webs_flexural / plate_compression
-    print(webs_flexural,P_fail_webs_flex)
 
     webs_shear = ((5 * math.pi**2 * E) * ((t/h2)**2 + (t/(distance_AL/2))**2))/(12 * (1 - poissons_ratio**2)) #calculate this by hand
     P_fail_webs_shear = (2 * webs_shear * I * 2*t)/Q
-    print(webs_shear,P_fail_webs_shear)
-
 
     P_fail_BF = min(P_fail_BC1,P_fail_BC2,P_fail_webs_flex,P_fail_webs_shear)
     ########################################supposed to work, but didn't######################################
-
-    
 
     print("Due to buckling, the bridge will fail at:",P_fail_BF,"N.")
     return P_fail_BF
@@ -296,8 +286,8 @@ def LowestP_fail():
 #=============================================================================================================================================#
 
 
-#ALGORITHM/NEURAL NETWORK TRAINING: IF THE LOWEST VALUE ISN'T >= 1000, 
-#ITERATE THRU INPUT COMBINATIONS AND RECORD THE INPUTS FOR WHICH LOWESTPFAIL IS >= 1000
+# ALGORITHM TRAINING: IF THE LOWEST VALUE ISN'T >= 1000, ITERATE THRU INPUT COMBINATIONS \
+# AND RECORD THE INPUTS FOR WHICH LOWESTPFAIL IS >= 1000
 
 
 def Optimize():	
@@ -317,7 +307,6 @@ def Optimize():
 	for i in range(2,20,1):
 		for j in range(50,180,1):
 			h1,h2 = i,j
-			print(h1,h2)
 			(A, y_bar, I, y_c, y_t, Q, deltaB) = FindCrossSectionSpecs(h1,h2)
 			FF = FlexuralFailure()
 			SF = ShearFailure()
@@ -329,8 +318,8 @@ def Optimize():
 	return A_O, y_bar_O, I_O, y_c_O, y_t_O, Q_O, deltaB_O, h1, h2, L
 	return True
 
-#ALGORITHM/NEURAL NETWORK FURTHER TRAINING: ITERATE THROUGH INPUT 
-#COMBINATIONS AND RECORD THE INPUTS FOR WHICH LOWESTPFAIL IS MAXIMAL
+# ALGORITHM FURTHER TRAINING: ITERATE THROUGH INPUT COMBINATIONS AND RECORD THE INPUTS \
+# FOR WHICH LOWESTPFAIL IS MAXIMAL
 
 def DeepOptimize(): #update
 	A_DO, y_bar_DO, I_DO, h_total_DO, y_c_DO, y_t_DO, Q_DO, deltaB_DO = 0,0,0,0,0,0,0,0
@@ -354,7 +343,6 @@ def DeepOptimize(): #update
 		for i in range(2,20,1):
 			for j in range(50,180,1):
 				h1,h2 = i,j
-				print(h1,h2)
 				(A, y_bar, I, y_c, y_t, Q, deltaB) = FindCrossSectionSpecs(h1,h2)
 				FF = FlexuralFailure()
 				SF = ShearFailure()
@@ -366,8 +354,6 @@ def DeepOptimize(): #update
 						break
 		return A_DO, y_bar_DO, I_DO, h_total_DO, y_c_DO, y_t_DO, Q_DO, deltaB_DO, h1, h2, L
 		return True
-
-	
 
 #=============================================================================================================================================#
 ###############################################################################################################################################
@@ -383,7 +369,6 @@ if __name__ == "__main__":
 	print("=============FindCrossSectionSpecs(h1,h2)=============")
 	print(FindCrossSectionSpecs(h1,h2))
 	print("	A 			y_bar 				I 					y_c 				y_t 			Q 				deltaB")
-
 
 	print("\n=============THE FOLLOWING VALUES ARE CONSTANT FOR ANY h1,h2=============\n")
 	print("=============FindSupportReactionForces()=============")
